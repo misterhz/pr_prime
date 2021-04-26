@@ -1,0 +1,10 @@
+1. Pierwsza wersja kodu, oznaczona Ndc, dzieli obszar liczb do sprawdzenia mi˛edzy w ˛atkami za pomoc ˛a dyrektywy
+#pragma omp parallel for, w trybie schedule(dynamic) (oznaczenie ’d’). W tym trybie iteracje s ˛a na biez ˛aco przydzielane do w ˛atków, zgodnie z zapotrzebowaniem. Powodem wybrania tego trybu podziału jest fakt, ˙
+ze ilo ˙ s´c potencjalnych dzielników badanej liczby do sprawdzenia ro ´ snie wraz ze wzrostem tej liczby, a wi˛ec tryb ´
+static dzieliłby obci ˛azenie nierównomiernie. W tej wersji kodu, w przypadku gdy dana liczba jest liczb ˛a pierw- ˙
+sz ˛a, w ˛atek wchodzi w sekcje krytyczn ˛a (st ˛ad oznaczenie ’c’), zeby zapisa ˙ c j ˛a do tablicy. To oczywi ´ scie wymaga ´
+synchronizacji w ˛atków i spowalnia algorytm.
+
+zrobimy static i dynamic, a potem wyjaśnimy różnicę
+
+2. można przechodzić po tablicy z liczbami pierwszymi zamiast iteracji do sqrt
