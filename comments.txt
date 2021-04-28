@@ -10,3 +10,13 @@ zrobimy static i dynamic, a potem wyjaśnimy różnicę
 2. naive: można przechodzić po tablicy z liczbami pierwszymi zamiast iteracji do sqrt
 
 3. sito: najpierw szukamy liczb pierwszych do sqrt(max), a potem wykreślamy z zakresu
+
+4. sieve_dynamic:
+	for(int i = 0; i < sqrt_max; i++) {
+        	if(sieve_tab[i]) {
+			primes[count++] = i + 2;
+			printf("%d\n", primes[count - 1]);
+        	} 
+    } - #pragma omp single, bo gdyby dostęp do count byłby atomowy, to przetwarzanie byłoby strasznie wolne, więc niech 1 wątek tym się zajmie
+    
+5. sieve: można nie sprawdzać wielokrotności 2
