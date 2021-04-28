@@ -7,4 +7,6 @@ synchronizacji w ˛atków i spowalnia algorytm.
 
 zrobimy static i dynamic, a potem wyjaśnimy różnicę
 
-2. można przechodzić po tablicy z liczbami pierwszymi zamiast iteracji do sqrt
+2. naive: można przechodzić po tablicy z liczbami pierwszymi zamiast iteracji do sqrt
+
+3. sito: najpierw szukamy liczb pierwszych do sqrt(max), a potem wykreślamy z zakresu
