@@ -37,7 +37,7 @@ int find_primes_sieve_dynamic(int from, int to) {
             }
         }
 
-//#pragma omp barrier
+#pragma omp barrier
 
 #pragma omp single
         for(int i = 0; i < sqrt_max; i++) {
@@ -74,6 +74,7 @@ int find_primes_sieve_dynamic(int from, int to) {
 //                printf("%d: %d isn\'t prime\n", id, current_num);
             }
         }
+        #pragma omp barrier
 
 #pragma omp single
         for(int i = 0; i < to - from; i++) {
