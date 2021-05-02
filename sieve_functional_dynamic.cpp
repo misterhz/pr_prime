@@ -6,12 +6,12 @@
 #include <string.h>
 #include "range.h"
 
-#define MAX 400'000'000
+#define MAX 100'000
 #define MIN 2
 #define SIZE MAX - MIN
 #define THREADS_NUM 8
 
-// #define SHOW_INFO
+#define SHOW_INFO
 
 bool sieve_tab[(int) sqrt(MAX)] = {true};
 long long primes[(int) (sqrt(MAX) / 2)];
@@ -49,7 +49,7 @@ int find_primes_sieve_dynamic(long long from, long long to) {
         for(int i = 0; i < count; i++) {
             long long num = primes[i];
             long long start_from = from - from % num;
-            if(start_from == from) {
+            if(start_from == from && from != num) {
                 sieve_in_range[start_from - from] = false;
             }
             int current_num = 0;
