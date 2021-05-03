@@ -6,18 +6,21 @@
 #include <string.h>
 #include "range.h"
 
-#define MAX 100'000
-#define MIN 2
-#define SIZE MAX - MIN
-#define THREADS_NUM 7
+int THREADS_NUM = 0;
 
 #define SHOW_INFO
 
-bool sieve_tab[(int) sqrt(MAX)] = {true};
-int primes[(int) (sqrt(MAX) / 2)];
+// bool sieve_tab[(int) sqrt(MAX)] = {true};
+// int primes[(int) (sqrt(MAX) / 2)];
 
-bool sieve_in_range[MAX - MIN];
-int primes_in_range[MAX - MIN];
+bool* sieve_tab;
+int* primes;
+
+bool* sieve_in_range;
+int* primes_in_range;
+
+// bool sieve_in_range[MAX - MIN];
+// int primes_in_range[MAX - MIN];
 
 int count = 0;
 int count_in_range = 0;
@@ -53,7 +56,7 @@ int find_primes_sieve_dynamic(int from, int to) {
         int local_range_start = get_range_start(THREADS_NUM, id, from, to);
         int local_range_end = get_range_end(THREADS_NUM, id, from, to);
 
-//        printf("%d: gonna check from %d to %d\n", id, local_range_start, local_range_end);
+    //    printf("%d: gonna check from %d to %d\n", id, local_range_start, local_range_end);
 
         // #pragma omp for
         for(int i = 0; i < count; i++) {
@@ -88,14 +91,37 @@ int find_primes_sieve_dynamic(int from, int to) {
     return 0;
 }
 
-int main() {
-    omp_set_num_threads(THREADS_NUM);
-    memset(sieve_tab, true, sizeof(sieve_tab));
-    memset(sieve_in_range, true, sizeof(sieve_in_range));
-    find_primes_sieve_dynamic(MIN, MAX);
+int main(int argc, char** argv) {
+    if(argc != 4) {
+        printf("%s min max threads\n", argv[0]);
+        return 1;
+    }
+
+    int min = atoi(argv[1]);
+    int max = atoi(argv[2]);
+
+    int sqrt_max = (int) sqrt(max);
+    int threads_num = atoi(argv[3]);
+
+    THREADS_NUM = threads_num;
+
+    sieve_tab = (bool*) malloc(sizeof(bool) * sqrt_max);
+    primes = (int*) malloc(sizeof(int) * sqrt_max / 2);
+
+    sieve_in_range = (bool*) malloc(sizeof(bool) * (max - min));
+    primes_in_range = (int*) malloc(sizeof(int) * (max - min));
+
+    omp_set_num_threads(threads_num);
+
+    memset(sieve_tab, true, sizeof(bool) * sqrt_max);
+    memset(sieve_in_range, true, sizeof(bool) * (max - min));
+
+    printf("%d %d\n", min, max);
+
+    find_primes_sieve_dynamic(min, max);
 
 #ifdef SHOW_INFO
-    printf("%d primes between %d and %d\n", count_in_range, MIN, MAX);
+    printf("%d primes between %d and %d\n", count_in_range, min, max);
     printf("First up to 10 primes are:\n");
     for(int i = 0; i < 10 && i < count_in_range; i++) {
         printf("%d\n", primes_in_range[i]);
