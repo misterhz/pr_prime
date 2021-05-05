@@ -6,7 +6,6 @@
 
 // #define SHOW_INFO
 
-// int primes[(int)(SIZE / 2)];
 int* primes;
 int primes_count = 0;
 

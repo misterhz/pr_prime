@@ -10,17 +10,11 @@ int THREADS_NUM = 0;
 
 #define SHOW_INFO
 
-// bool sieve_tab[(int) sqrt(MAX)] = {true};
-// int primes[(int) (sqrt(MAX) / 2)];
-
 bool* sieve_tab;
 int* primes;
 
 bool* sieve_in_range;
 int* primes_in_range;
-
-// bool sieve_in_range[MAX - MIN];
-// int primes_in_range[MAX - MIN];
 
 int count = 0;
 int count_in_range = 0;
@@ -28,7 +22,7 @@ int count_in_range = 0;
 int find_primes_sieve_dynamic(int from, int to) {
     from = from >= 2 ? from : 2;
     int sqrt_max = (int) sqrt(to);
-
+ 
 #pragma omp parallel
     {
 #pragma omp for schedule(dynamic)
@@ -44,11 +38,10 @@ int find_primes_sieve_dynamic(int from, int to) {
         for(int i = 0; i < sqrt_max; i++) {
             if(sieve_tab[i]) {
                 primes[count++] = i + 2;
-                // printf("%d\n", primes[count - 1]);
             }
         }
 
-#pragma omp for schedule(dynamic) // maybe unnecessary
+#pragma omp for schedule(dynamic)
         for(int i = 0; i < count; i++) {
             int num = primes[i];
             int start_from = from - from % num;
@@ -70,12 +63,10 @@ int find_primes_sieve_dynamic(int from, int to) {
         for(int i = 0; i < to - from; i++) {
             if(sieve_in_range[i]) {
                 primes_in_range[count_in_range++] = i + from;
-                // printf("%d\n", primes_in_range[count_in_range - 1]);
             }
         }
     }
-
-    return 0;
+    return count_in_range;
 }
 
 int main(int argc, char** argv) {

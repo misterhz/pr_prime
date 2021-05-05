@@ -1,4 +1,5 @@
 compile_all : naive_static naive_dynamic sieve_domain_dynamic sieve_functional_dynamic
+	rm ./*.o
 
 naive_dynamic : naive_dynamic.o
 	g++ -fopenmp -o naive_dynamic naive_dynamic.o -lm -O3
